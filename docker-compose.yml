@@ -1,0 +1,122 @@
+services:
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: balancetonflow-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: balancetonflow
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - balancetonflow
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Application Laravel (balancetonflow)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        user: www-data
+        uid: 1000
+    container_name: balancetonflow-app
+    restart: on-failure:3
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: balancetonflow
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      REDIS_HOST: redis
+      REDIS_PASSWORD: null
+      REDIS_PORT: 6379
+      BROADCAST_DRIVER: log
+      CACHE_DRIVER: file
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: file
+      APP_ENV: development
+      APP_DEBUG: 'true'
+      COMPOSER_ALLOW_SUPERUSER: 1
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - balancetonflow
+    # Exécuter le script d'initialisation qui configure l'application
+    volumes:
+      - ./:/var/www/html
+      - composer_cache:/root/.composer/cache
+    command: ["php-fpm"]
+
+  # Serveur web Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: balancetonflow-nginx
+    restart: always
+    ports:
+      - "8889:80"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - balancetonflow
+
+  # Interface phpMyAdmin pour gérer la base de données
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: balancetonflow-phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8082:80"
+    depends_on:
+      - mysql
+    networks:
+      - balancetonflow
+
+  # Redis pour le cache, les sessions et les files d'attente
+  redis:
+    image: redis:alpine
+    container_name: balancetonflow-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - balancetonflow
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Note: Horizon service removed due to compatibility issues
+
+networks:
+  balancetonflow:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  composer_cache:
+  redis-data:
