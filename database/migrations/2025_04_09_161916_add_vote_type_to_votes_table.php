@@ -9,20 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('votes', function (Blueprint $table) {
-            $table->string('vote_type')->nullable()->after('user_id');
+            // Check if vote_type column doesn't already exist before adding it
+            if (!Schema::hasColumn('votes', 'vote_type')) {
+                $table->string('vote_type')->nullable()->after('user_id');
+            }
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('votes', function (Blueprint $table) {
-            $table->dropColumn('vote_type');
+            if (Schema::hasColumn('votes', 'vote_type')) {
+                $table->dropColumn('vote_type');
+            }
         });
     }
 };

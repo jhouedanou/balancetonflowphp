@@ -61,7 +61,7 @@ class Contestant extends Model
      */
     public function videos()
     {
-        return $this->hasMany(Video::class);
+        return $this->hasMany(Video::class, 'candidate_id');
     }
 
     /**
@@ -69,7 +69,7 @@ class Contestant extends Model
      */
     public function votes()
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Vote::class, 'candidate_id');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\LiveStreamController;
 use App\Http\Controllers\VoteController;
@@ -24,14 +25,28 @@ Route::get('/', function () {
 })->name('home');
 
 // Authentication routes
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect()->to(url('/', [], false));
-})->name('logout');
+// Password Reset Routes
+Route::get('/forgot-password', function () {
+    return view('auth.passwords.email');
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.passwords.reset', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+    ->middleware('guest')
+    ->name('password.update');
 
 // Socialite routes
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');

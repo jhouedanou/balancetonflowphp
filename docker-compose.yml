@@ -60,6 +60,7 @@ services:
     volumes:
       - ./:/var/www/html
       - composer_cache:/root/.composer/cache
+      - ./upload-limits.ini:/usr/local/etc/php/conf.d/upload-limits.ini
     command: ["php-fpm"]
 
   # Serveur web Nginx
