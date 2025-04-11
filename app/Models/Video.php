@@ -19,8 +19,7 @@ class Video extends Model
         'description',
         'url',
         'thumbnail',
-        'contestant_id', // Keep for backward compatibility
-        'candidate_id',  // Add this new field
+        'contestant_id',
         'duration',
         'publish_date',
         'status',
@@ -78,10 +77,10 @@ class Video extends Model
     }
     
     /**
-     * Get the candidate that owns the video.
+     * Alias for contestant() to maintain backward compatibility
      */
     public function candidate()
     {
-        return $this->belongsTo(Candidate::class, 'candidate_id');
+        return $this->contestant();
     }
 }

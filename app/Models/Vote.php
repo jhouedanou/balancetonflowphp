@@ -16,11 +16,9 @@ class Vote extends Model
      */
     protected $fillable = [
         'user_id',
-        'contestant_id', // Keep for backward compatibility
-        'candidate_id',  // Add this new field
+        'contestant_id',
         'event_id',
-        'ip_address',
-        'vote_type'
+        'ip_address'
     ];
 
     /**
@@ -40,10 +38,10 @@ class Vote extends Model
     }
     
     /**
-     * Get the candidate that received the vote.
+     * Alias for contestant() to maintain backward compatibility
      */
     public function candidate()
     {
-        return $this->belongsTo(Candidate::class, 'candidate_id');
+        return $this->contestant();
     }
 }

@@ -14,7 +14,7 @@ class Candidate extends Model
      *
      * @var string
      */
-    protected $table = 'candidates';
+    protected $table = 'contestants';
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +42,7 @@ class Candidate extends Model
      */
     public function votes()
     {
-        return $this->hasMany(Vote::class, 'candidate_id');
+        return $this->hasMany(Vote::class, 'contestant_id');
     }
 
     /**
@@ -50,7 +50,7 @@ class Candidate extends Model
      */
     public function videos()
     {
-        return $this->hasMany(Video::class, 'candidate_id');
+        return $this->hasMany(Video::class, 'contestant_id');
     }
     
     /**
