@@ -61,7 +61,7 @@ class LiveStreamResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('contestants')
                     ->label('Candidats')
-                    ->relationship('contestants')
+                    ->relationship('contestants', 'name')
                     ->multiple()
                     ->preload()
                     ->searchable(),
