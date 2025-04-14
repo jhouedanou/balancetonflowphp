@@ -60,6 +60,7 @@ class LiveStreamSeeder extends Seeder
         
         // Réinitialiser la séquence auto-increment à la valeur max + 1
         $maxId = DB::table('live_streams')->max('id') ?: 0;
-        DB::statement("ALTER SEQUENCE live_streams_id_seq RESTART WITH " . ($maxId + 1));
+        // Utilisation de la syntaxe MySQL au lieu de PostgreSQL
+        DB::statement("ALTER TABLE live_streams AUTO_INCREMENT = " . ($maxId + 1));
     }
 }

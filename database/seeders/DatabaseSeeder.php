@@ -8,6 +8,7 @@ use App\Models\Contestant;
 use App\Models\LiveStream;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,14 +38,46 @@ class DatabaseSeeder extends Seeder
                 $admin = User::create([
                     'name' => 'Admin',
                     'email' => 'admin@balancetonflow.com',
-                    'password' => Hash::make('Z3rza+kckdRJFIVO'), // Mot de passe sécurisé
-                    'is_admin' => true,
+                    'password' => 'Z3rza+kckdRJFIVO', // Sans Hash::make pour éviter le double hachage
                     'email_verified_at' => now(),
                 ]);
+                
+                // Assigner le rôle admin via la table model_has_roles
+                DB::table('roles')->insertOrIgnore([
+                    'id' => 1,
+                    'name' => 'admin',
+                    'guard_name' => 'web',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                
+                DB::table('model_has_roles')->insertOrIgnore([
+                    'role_id' => 1,
+                    'model_type' => 'App\\Models\\User',
+                    'model_id' => $admin->id,
+                ]);
             } else {
-                $admin->password = Hash::make('Z3rza+kckdRJFIVO');
-                $admin->is_admin = true;
-                $admin->save();
+                // Mise à jour directe sans hachage pour éviter le double hachage
+                $admin->forceFill([
+                    'password' => 'Z3rza+kckdRJFIVO'
+                ])->save();
+                
+                // S'assurer que l'utilisateur a le rôle admin
+                if (!$admin->isAdmin()) {
+                    DB::table('roles')->insertOrIgnore([
+                        'id' => 1,
+                        'name' => 'admin',
+                        'guard_name' => 'web',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    
+                    DB::table('model_has_roles')->insertOrIgnore([
+                        'role_id' => 1,
+                        'model_type' => 'App\\Models\\User',
+                        'model_id' => $admin->id,
+                    ]);
+                }
             }
 
             // Create sample contestants
