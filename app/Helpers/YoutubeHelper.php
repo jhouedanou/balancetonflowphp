@@ -12,6 +12,12 @@ class YoutubeHelper
      */
     public static function getYoutubeId($url)
     {
+        // Format livestream: youtube.com/live/ID
+        if (preg_match('/youtube\.com\/live\/([^\/\?\&]+)/', $url, $matches)) {
+            return $matches[1];
+        }
+        
+        // Format standard
         preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $matches);
         return isset($matches[1]) ? $matches[1] : '';
     }

@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="col-lg-6 mt-5 mt-lg-0 text-center fade-in">
-        <img src="{{ asset('images/hero-image.jpg') }}" alt="Balance Ton Flow" class="img-fluid rounded-3 shadow-lg" style="max-height: 400px;">
+        <img src="{{ asset('images/hero-image.png') }}" alt="Balance Ton Flow" class="img-fluid rounded-3 shadow-lg" style="max-height: 400px;">
     </div>
 </div>
 
