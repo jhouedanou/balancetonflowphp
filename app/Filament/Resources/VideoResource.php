@@ -63,7 +63,7 @@ class VideoResource extends Resource
                     ])
                     ->default('draft')
                     ->required(),
-                Forms\Components\DateTimePicker::make('publish_date')
+                Forms\Components\DateTimePicker::make('published_at')
                     ->label('Date de publication')
                     ->nullable(),
                 Forms\Components\Toggle::make('is_featured')
@@ -105,7 +105,7 @@ class VideoResource extends Resource
                         'archived' => 'danger',
                         default => 'primary',
                     }),
-                Tables\Columns\TextColumn::make('publish_date')
+                Tables\Columns\TextColumn::make('published_at')
                     ->label('Date de publication')
                     ->dateTime()
                     ->sortable(),
@@ -136,23 +136,22 @@ class VideoResource extends Resource
                 Tables\Filters\Filter::make('is_featured')
                     ->label('Mises en avant uniquement')
                     ->query(fn (Builder $query): Builder => $query->where('is_featured', true)),
-                Tables\Filters\Filter::make('publish_date')
-                    ->label('Date de publication')
+                Tables\Filters\Filter::make('published_at')
                     ->form([
                         Forms\Components\DatePicker::make('published_from')
-                            ->label('Depuis'),
+                            ->label('Publié depuis'),
                         Forms\Components\DatePicker::make('published_until')
-                            ->label('Jusqu\'à'),
+                            ->label('Publié jusqu\'à'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['published_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('publish_date', '>=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '>=', $date),
                             )
                             ->when(
                                 $data['published_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('publish_date', '<=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date),
                             );
                     })
             ])

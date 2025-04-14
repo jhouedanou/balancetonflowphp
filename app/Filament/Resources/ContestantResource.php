@@ -30,15 +30,18 @@ class ContestantResource extends Resource
                     ->label('Nom')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Textarea::make('bio')
                     ->label('Description')
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('photo')
+                Forms\Components\FileUpload::make('profile_photo')
                     ->label('Photo')
                     ->image()
+                    ->disk('public')
                     ->directory('contestants')
                     ->visibility('public')
-                    ->imageEditor(),
+                    ->imageEditor()
+                    ->maxSize(2048)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif']),
                 Forms\Components\Toggle::make('is_finalist')
                     ->label('Finaliste')
                     ->helperText('Cochez si le candidat est qualifié pour la finale')
@@ -56,7 +59,7 @@ class ContestantResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('photo')
+                Tables\Columns\ImageColumn::make('profile_photo')
                     ->label('Photo')
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')

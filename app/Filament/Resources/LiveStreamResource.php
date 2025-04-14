@@ -59,6 +59,14 @@ class LiveStreamResource extends Resource
                         'final' => 'Finale'
                     ])
                     ->required(),
+                Forms\Components\FileUpload::make('literature_file')
+                    ->label('Littérature / Document')
+                    ->disk('public')
+                    ->directory('livestream-documents')
+                    ->visibility('public')
+                    ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'])
+                    ->maxSize(10240) // 10 Mo max
+                    ->downloadable(),
                 Forms\Components\Select::make('contestants')
                     ->label('Candidats')
                     ->relationship('contestants', 'name')

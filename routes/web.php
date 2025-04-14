@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\LiveStreamController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
@@ -56,26 +57,35 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']
 Route::get('/live', [LiveStreamController::class, 'index'])->name('livestream.index');
 Route::get('/live/results', [LiveStreamController::class, 'results'])->name('livestream.results');
 
-// Candidates routes
-Route::get('/candidates', [CandidateController::class, 'index'])->name('candidates.index');
-Route::get('/candidates/{candidate}', [CandidateController::class, 'show'])->name('candidates.show');
+// Redirection des anciennes routes candidates vers contestants
+Route::get('/candidates', function () {
+    return redirect('/contestants');
+})->name('candidates.index');
+
+Route::get('/candidates/{candidate}', function ($candidate) {
+    return redirect("/contestants/{$candidate}");
+})->name('candidates.show');
+
+// Contestants routes
+Route::get('/contestants', [ContestantController::class, 'index'])->name('contestants.index');
+Route::get('/contestants/{contestant}', [ContestantController::class, 'show'])->name('contestants.show');
 
 // Vote routes
 Route::post('/vote', [VoteController::class, 'store'])->name('vote.store')->middleware('auth');
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
-    // Candidate dashboard
-    Route::get('/dashboard', [CandidateController::class, 'dashboard'])->name('candidates.dashboard');
-    Route::get('/dashboard/edit', [CandidateController::class, 'edit'])->name('candidates.edit');
-    Route::put('/dashboard/update', [CandidateController::class, 'update'])->name('candidates.update');
+    // Contestant dashboard
+    Route::get('/dashboard', [ContestantController::class, 'dashboard'])->name('contestants.dashboard');
+    Route::get('/dashboard/edit', [ContestantController::class, 'edit'])->name('contestants.edit');
+    Route::put('/dashboard/update', [ContestantController::class, 'update'])->name('contestants.update');
     
-    // Candidate videos
-    Route::get('/dashboard/videos/create', [CandidateController::class, 'createVideo'])->name('candidates.videos.create');
-    Route::post('/dashboard/videos', [CandidateController::class, 'storeVideo'])->name('candidates.videos.store');
-    Route::get('/dashboard/videos/{video}/edit', [CandidateController::class, 'editVideo'])->name('candidates.videos.edit');
-    Route::put('/dashboard/videos/{video}', [CandidateController::class, 'updateVideo'])->name('candidates.videos.update');
-    Route::delete('/dashboard/videos/{video}', [CandidateController::class, 'destroyVideo'])->name('candidates.videos.destroy');
+    // Contestant videos
+    Route::get('/dashboard/videos/create', [ContestantController::class, 'createVideo'])->name('contestants.videos.create');
+    Route::post('/dashboard/videos', [ContestantController::class, 'storeVideo'])->name('contestants.videos.store');
+    Route::get('/dashboard/videos/{video}/edit', [ContestantController::class, 'editVideo'])->name('contestants.videos.edit');
+    Route::put('/dashboard/videos/{video}', [ContestantController::class, 'updateVideo'])->name('contestants.videos.update');
+    Route::delete('/dashboard/videos/{video}', [ContestantController::class, 'destroyVideo'])->name('contestants.videos.destroy');
 });
 
 // Routes d'administration classiques (désactivées pour utiliser Filament)
@@ -108,6 +118,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin-legacy')->name('admin.')->gr
     Route::put('/livestreams/{livestream}', [LiveStreamController::class, 'update'])->name('livestream.update');
     Route::delete('/livestreams/{livestream}', [LiveStreamController::class, 'destroy'])->name('livestream.destroy');
 });
+
 */
 
 // Route spécifique pour rediriger /admin vers Filament

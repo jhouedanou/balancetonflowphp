@@ -19,11 +19,9 @@ class Video extends Model
         'description',
         'url',
         'thumbnail',
-        'contestant_id', // Keep for backward compatibility
-        'candidate_id',  // Add this new field
-        'duration',
-        'publish_date',
-        'status',
+        'contestant_id',
+        'is_published',
+        'published_at',
         'is_featured'
     ];
 
@@ -33,55 +31,16 @@ class Video extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'publish_date' => 'datetime',
+        'published_at' => 'datetime',
+        'is_published' => 'boolean',
         'is_featured' => 'boolean',
     ];
-    
-    /**
-     * Map the 'published_at' attribute to 'publish_date' in the database
-     */
-    public function getPublishedAtAttribute()
-    {
-        return $this->publish_date;
-    }
-    
-    /**
-     * Set the 'publish_date' attribute when 'published_at' is set
-     */
-    public function setPublishedAtAttribute($value)
-    {
-        $this->attributes['publish_date'] = $value;
-    }
-    
-    /**
-     * Map the 'is_published' attribute to 'status' in the database
-     */
-    public function getIsPublishedAttribute()
-    {
-        return $this->status === 'published';
-    }
-    
-    /**
-     * Set the 'status' attribute when 'is_published' is set
-     */
-    public function setIsPublishedAttribute($value)
-    {
-        $this->attributes['status'] = $value ? 'published' : 'draft';
-    }
 
     /**
      * Get the contestant that owns the video.
      */
     public function contestant()
     {
-        return $this->belongsTo(Contestant::class, 'contestant_id');
-    }
-    
-    /**
-     * Get the candidate that owns the video.
-     */
-    public function candidate()
-    {
-        return $this->belongsTo(Candidate::class, 'candidate_id');
+        return $this->belongsTo(Contestant::class);
     }
 }

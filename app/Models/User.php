@@ -98,16 +98,16 @@ class User extends Authenticatable implements FilamentUser
      */
     public function hasContestantRole(): bool
     {
-        // Vérifier si l'utilisateur a un rôle de contestant
-        return false; // Désactivé temporairement pour éviter l'erreur SQL
+        // Vérifier si l'utilisateur a un contestant associé
+        return $this->contestant()->exists();
     }
     
     /**
-     * Simule l'accès à un contestant sans faire de requête SQL
+     * Relation avec le contestant associé à cet utilisateur
      */
     public function contestant()
     {
-        return null; // Retourne null pour éviter l'erreur
+        return $this->hasOne(Contestant::class);
     }
     
     /**

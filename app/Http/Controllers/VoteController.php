@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidate;
+use App\Models\Contestant;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +93,7 @@ class VoteController extends Controller
      */
     private function getVoteCounts($voteType)
     {
-        return Candidate::select('contestants.id', 'contestants.name', DB::raw('COUNT(votes.id) as vote_count'))
+        return Contestant::select('contestants.id', 'contestants.name', DB::raw('COUNT(votes.id) as vote_count'))
             ->leftJoin('votes', function ($join) use ($voteType) {
                 $join->on('contestants.id', '=', 'votes.contestant_id')
                     ->where('votes.vote_type', '=', $voteType);

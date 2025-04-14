@@ -21,14 +21,14 @@ if (!$admin) {
     $admin->password = Hash::make('admin123');
     $admin->is_admin = true;
     $admin->save();
-    
+
     echo "Admin user created successfully!\n";
 } else {
     // Ensure admin has correct password and is_admin flag
     $admin->password = Hash::make('admin123');
     $admin->is_admin = true;
     $admin->save();
-    
+
     echo "Admin user updated successfully!\n";
 }
 

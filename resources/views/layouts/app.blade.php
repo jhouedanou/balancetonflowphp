@@ -251,6 +251,72 @@
         .pulse {
             animation: pulse 2s infinite;
         }
+        
+        /* CSS personnalisé pour l'application */
+        .tiktok-embed-container {
+            position: relative;
+            width: 100%;
+            max-width: 325px;  /* Largeur standard d'un TikTok */
+            margin: 0 auto;
+            height: 575px;     /* Hauteur adaptée au format vertical */
+            overflow: hidden;
+        }
+
+        .tiktok-embed-container iframe {
+            border: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .youtube-embed-container {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .youtube-embed-container iframe {
+            border: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            cursor: pointer;
+            padding-top: 56.25%;  /* Ratio 16:9 */
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 3rem;
+            opacity: 0.8;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transition: opacity 0.3s ease;
+        }
+
+        .video-thumbnail:hover .play-icon {
+            opacity: 1;
+        }
     </style>
     
     @yield('styles')

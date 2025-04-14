@@ -32,12 +32,16 @@ class VideosRelationManager extends RelationManager
                     ->required()
                     ->url()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('thumbnail')
+                Forms\Components\FileUpload::make('thumbnail')
                     ->label('Miniature')
-                    ->url()
-                    ->maxLength(255),
+                    ->image()
+                    ->disk('public')
+                    ->directory('videos')
+                    ->visibility('public')
+                    ->imageEditor(),
                 Forms\Components\Toggle::make('is_published')
-                    ->label('Publié')
+                    ->label('Publier la vidéo')
+                    ->default(false)
                     ->required(),
                 Forms\Components\DateTimePicker::make('published_at')
                     ->label('Date de publication'),

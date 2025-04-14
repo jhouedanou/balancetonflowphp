@@ -53,7 +53,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="video-card">
                                     <div class="video-thumbnail mb-2">
-                                        <img src="{{ $video->thumbnail ? asset('storage/' . $video->thumbnail) : 'https://img.youtube.com/vi/' . getYoutubeId($video->url) . '/maxresdefault.jpg' }}" 
+                                        <img src="{{ $video->thumbnail ? asset('storage/' . $video->thumbnail) : 'https://img.youtube.com/vi/' . \App\Helpers\YoutubeHelper::getYoutubeId($video->url) . '/maxresdefault.jpg' }}" 
                                              alt="{{ $video->title }}" 
                                              class="img-fluid rounded">
                                         <div class="play-icon">
@@ -63,7 +63,7 @@
                                     </div>
                                     <h3 class="h6 mb-1">{{ $video->title }}</h3>
                                     <p class="small text-muted">
-                                        <i class="far fa-calendar-alt me-1"></i>{{ $video->published_at->format('d/m/Y') }}
+                                        <i class="far fa-calendar-alt me-1"></i>{{ $video->published_at ? $video->published_at->format('d/m/Y') : 'Non publié' }}
                                     </p>
                                 </div>
                             </div>
@@ -105,10 +105,3 @@
     </div>
 </div>
 @endsection
-
-@php
-function getYoutubeId($url) {
-    preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $matches);
-    return isset($matches[1]) ? $matches[1] : '';
-}
-@endphp

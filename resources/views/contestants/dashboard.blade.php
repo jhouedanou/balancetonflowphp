@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Balance Ton Flow - Espace Candidat')
+@section('title', 'Balance Ton Flow - Espace Contestant')
 
 @section('content')
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
-        <h1 class="h2 mb-0">Mon espace candidat</h1>
-        <a href="{{ route('candidates.edit') }}" class="btn btn-primary">
+        <h1 class="h2 mb-0">Mon espace contestant</h1>
+        <a href="{{ route('contestants.edit') }}" class="btn btn-primary">
             <i class="fas fa-edit me-2"></i>Modifier mon profil
         </a>
     </div>
@@ -16,13 +16,13 @@
     <div class="col-lg-4 mb-4">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-body text-center">
-                <img src="{{ $candidate->photo ? asset('storage/' . $candidate->photo) : asset('images/default-avatar.png') }}" 
-                     alt="{{ $candidate->name }}" 
+                <img src="{{ $contestant->photo ? asset('storage/' . $contestant->photo) : asset('images/default-avatar.png') }}" 
+                     alt="{{ $contestant->name }}" 
                      class="rounded-circle mb-3" 
                      width="120" height="120">
-                <h2 class="h4 mb-2">{{ $candidate->name }}</h2>
+                <h2 class="h4 mb-2">{{ $contestant->name }}</h2>
                 
-                @if($candidate->is_finalist)
+                @if($contestant->is_finalist)
                     <div class="mb-3">
                         <span class="badge bg-warning text-dark">
                             <i class="fas fa-star me-1"></i>Finaliste
@@ -30,7 +30,7 @@
                     </div>
                 @endif
                 
-                <p class="text-muted">{{ Str::limit($candidate->description, 150) }}</p>
+                <p class="text-muted">{{ Str::limit($contestant->bio, 150) }}</p>
                 
                 <div class="d-flex justify-content-around mt-4">
                     <div class="text-center">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 
-                <a href="{{ route('candidates.show', $candidate) }}" class="btn btn-outline-primary mt-3">
+                <a href="{{ route('contestants.show', $contestant) }}" class="btn btn-outline-primary mt-3">
                     <i class="fas fa-eye me-2"></i>Voir mon profil public
                 </a>
             </div>
@@ -85,7 +85,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h3 class="h5 mb-0">Mes vidéos</h3>
-                <a href="{{ route('candidates.videos.create') }}" class="btn btn-sm btn-primary">
+                <a href="{{ route('contestants.videos.create') }}" class="btn btn-sm btn-primary">
                     <i class="fas fa-plus me-2"></i>Ajouter une vidéo
                 </a>
             </div>
@@ -106,16 +106,18 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ $video->thumbnail ? asset('storage/' . $video->thumbnail) : 'https://img.youtube.com/vi/' . \App\Helpers\YoutubeHelper::getYoutubeId($video->url) . '/default.jpg' }}" 
-                                                     alt="{{ $video->title }}" 
-                                                     class="me-2 rounded" 
-                                                     width="50" height="30">
-                                                <span>{{ Str::limit($video->title, 30) }}</span>
+                                                <div class="video-thumbnail me-2">
+                                                    <img src="{{ $video->thumbnail ? asset('storage/' . $video->thumbnail) : asset('images/default-thumbnail.png') }}" 
+                                                         alt="{{ $video->title }}" 
+                                                         width="50" height="30"
+                                                         class="rounded">
+                                                </div>
+                                                <span>{{ $video->title }}</span>
                                             </div>
                                         </td>
                                         <td>
                                             @if($video->is_published)
-                                                <span class="badge bg-success">Publié</span>
+                                                <span class="badge bg-success">Publiée</span>
                                             @else
                                                 <span class="badge bg-secondary">Brouillon</span>
                                             @endif
@@ -126,7 +128,7 @@
                                                 <a href="{{ $video->url }}" class="btn btn-sm btn-outline-secondary" target="_blank">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('candidates.videos.edit', $video) }}" class="btn btn-sm btn-outline-primary">
+                                                <a href="{{ route('contestants.videos.edit', $video) }}" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-outline-danger" 
@@ -149,7 +151,7 @@
                             <i class="fas fa-video-slash fa-3x text-muted"></i>
                         </div>
                         <p class="mb-3">Vous n'avez pas encore ajouté de vidéos.</p>
-                        <a href="{{ route('candidates.videos.create') }}" class="btn btn-primary">
+                        <a href="{{ route('contestants.videos.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus me-2"></i>Ajouter ma première vidéo
                         </a>
                     </div>
@@ -196,7 +198,7 @@
                 const videoTitle = button.getAttribute('data-video-title');
                 
                 document.getElementById('videoTitle').textContent = `"${videoTitle}"`;
-                document.getElementById('deleteVideoForm').action = `{{ route('candidates.videos.destroy', '') }}/${videoId}`;
+                document.getElementById('deleteVideoForm').action = `{{ route('contestants.videos.destroy', '') }}/${videoId}`;
             });
         }
     });

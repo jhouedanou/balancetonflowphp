@@ -29,7 +29,8 @@ class LiveStream extends Model
         'start_time',
         'end_time',
         'is_active',
-        'phase' // 'semi-final' or 'final'
+        'phase', // 'semi-final' or 'final'
+        'literature_file', // Fichier de littérature uploadé
     ];
 
     /**
