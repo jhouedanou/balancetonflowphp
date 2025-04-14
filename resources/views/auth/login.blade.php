@@ -61,7 +61,7 @@
                 </div>
                 
                 <div class="text-center mt-4">
-                    <p class="mb-2">Pas encore de compte ? <a href="{{ route('register') }}">Inscrivez-vous ici</a></p>
+                    <p class="mb-2">Pas encore de compte ? <a href="{{ route('register.form') }}">Inscrivez-vous ici</a></p>
                     <p><a href="{{ route('password.request') }}">Mot de passe oublié ?</a></p>
                 </div>
                 
