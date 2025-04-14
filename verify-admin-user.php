@@ -21,7 +21,7 @@ if (!$user) {
     $user = new User();
     $user->name = 'Admin';
     $user->email = 'admin@balancetonflow.com';
-    $user->password = Hash::make('admin123');
+    $user->password = Hash::make('hv7dAZCcZbT75ddH');
     $user->save();
     
     echo "Admin user created successfully!\n";
@@ -30,9 +30,9 @@ if (!$user) {
     echo "Admin user found with ID: " . $user->id . "\n";
     
     // Update password
-    $user->password = Hash::make('admin123');
+    $user->password = Hash::make('hv7dAZCcZbT75ddH');
     $user->save();
-    echo "Password updated to 'admin123'\n";
+    echo "Password updated to 'hv7dAZCcZbT75ddH'\n";
 }
 
 // Check if roles table exists
@@ -78,7 +78,7 @@ if (!$hasRole) {
 
 echo "\nVerify these admin credentials in your application:\n";
 echo "Email: admin@balancetonflow.com\n";
-echo "Password: admin123\n";
+echo "Password: hv7dAZCcZbT75ddH\n";
 
 // Output how authentication is set up
 echo "\nChecking authentication guards configuration:\n";

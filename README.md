@@ -72,7 +72,7 @@ docker compose exec app bash
 1. Accédez à l'application à l'adresse http://localhost:8889
 2. Connectez-vous avec les identifiants administrateur :
    - Email : admin@balancetonflow.com
-   - Mot de passe : admin123
+   - Mot de passe : ++
 3. Vous serez automatiquement redirigé vers le tableau de bord administrateur
 4. Alternativement, vous pouvez accéder directement au tableau de bord via http://localhost:8889/admin
 

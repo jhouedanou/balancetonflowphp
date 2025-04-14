@@ -19,13 +19,13 @@ if (!$user) {
     $user = new User();
     $user->name = 'Admin';
     $user->email = 'admin@balancetonflow.com';
-    $user->password = Hash::make('admin123');
+    $user->password = Hash::make('hv7dAZCcZbT75ddH');
     $user->save();
     
     echo "Admin user created successfully!\n";
 } else {
     // Update admin password
-    $user->password = Hash::make('admin123');
+    $user->password = Hash::make('hv7dAZCcZbT75ddH');
     $user->save();
     
     echo "Admin user updated successfully!\n";
@@ -67,4 +67,4 @@ if (!$hasRole) {
 
 echo "Admin credentials:\n";
 echo "Email: admin@balancetonflow.com\n";
-echo "Password: admin123\n";
+echo "Password: hv7dAZCcZbT75ddH\n";

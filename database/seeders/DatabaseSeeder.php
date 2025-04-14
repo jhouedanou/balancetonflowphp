@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             $admin = User::create([
                 'name' => 'Admin',
                 'email' => 'admin@balancetonflow.com',
-                'password' => Hash::make('admin123'),
+                'password' => Hash::make('hv7dAZCcZbT75ddH'),
                 'is_admin' => true,
                 'email_verified_at' => now(),
             ]);

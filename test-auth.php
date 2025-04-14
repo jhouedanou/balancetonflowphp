@@ -15,7 +15,7 @@ echo "Testing authentication for admin@balancetonflow.com...\n";
 // Method 1: Try direct authentication
 $credentials = [
     'email' => 'admin@balancetonflow.com',
-    'password' => 'admin123',
+    'password' => 'hv7dAZCcZbT75ddH',
 ];
 
 if (Auth::attempt($credentials)) {
@@ -33,20 +33,20 @@ if (Auth::attempt($credentials)) {
         echo "User exists in the database with ID: " . $user->id . "\n";
         
         // Try to manually check password
-        if (password_verify('admin123', $user->password)) {
+        if (password_verify('hv7dAZCcZbT75ddH', $user->password)) {
             echo "Password is correct when checked manually!\n";
         } else {
             echo "Password is incorrect when checked manually.\n";
             echo "Stored password hash: " . $user->password . "\n";
             
             // Update the password directly
-            $user->password = bcrypt('admin123');
+            $user->password = bcrypt('hv7dAZCcZbT75ddH');
             $user->save();
-            echo "Password has been updated to 'admin123' with bcrypt().\n";
+            echo "Password has been updated to 'hv7dAZCcZbT75ddH' with bcrypt().\n";
             
             // Check again
             $user = User::where('email', 'admin@balancetonflow.com')->first();
-            if (password_verify('admin123', $user->password)) {
+            if (password_verify('hv7dAZCcZbT75ddH', $user->password)) {
                 echo "Password is now correct when checked manually!\n";
             }
         }

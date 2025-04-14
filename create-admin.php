@@ -18,14 +18,14 @@ if (!$admin) {
     $admin = new User();
     $admin->name = 'Admin';
     $admin->email = 'admin@balancetonflow.com';
-    $admin->password = Hash::make('admin123');
+    $admin->password = Hash::make('hv7dAZCcZbT75ddH');
     $admin->is_admin = true;
     $admin->save();
 
     echo "Admin user created successfully!\n";
 } else {
     // Ensure admin has correct password and is_admin flag
-    $admin->password = Hash::make('admin123');
+    $admin->password = Hash::make('hv7dAZCcZbT75ddH');
     $admin->is_admin = true;
     $admin->save();
 
@@ -34,4 +34,4 @@ if (!$admin) {
 
 echo "Admin credentials:\n";
 echo "Email: admin@balancetonflow.com\n";
-echo "Password: admin123\n";
+echo "Password: hv7dAZCcZbT75ddH\n";
