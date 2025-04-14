@@ -32,13 +32,13 @@ class DatabaseSeeder extends Seeder
         } else {
             // Si aucune donnée existante, utiliser les données de démo originales
             // Create or update admin user
-            $admin = User::where('email', 'admin@balancetonflow.com')->first();
+            $admin = User::where('email', 'jeanluc@bigfiveabidjan.com')->first();
             
             if (!$admin) {
                 $admin = User::create([
-                    'name' => 'Admin',
-                    'email' => 'admin@balancetonflow.com',
-                    'password' => 'admin123', // Sans Hash::make pour éviter le double hachage
+                    'name' => 'Jean Luc',
+                    'email' => 'jeanluc@bigfiveabidjan.com',
+                    'password' => 'Rdf#2025_SecureAdmin!', // Sans Hash::make pour éviter le double hachage
                     'email_verified_at' => now(),
                 ]);
                 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             } else {
                 // Mise à jour directe sans hachage pour éviter le double hachage
                 $admin->forceFill([
-                    'password' => 'admin123'
+                    'password' => 'Rdf#2025_SecureAdmin!'
                 ])->save();
                 
                 // S'assurer que l'utilisateur a le rôle admin
