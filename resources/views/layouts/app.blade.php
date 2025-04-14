@@ -365,7 +365,14 @@
                                         <li><hr class="dropdown-divider"></li>
                                     @endif
                                     --}}
-                                    <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                                    <li>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         @else

@@ -137,4 +137,24 @@ class VoteController extends Controller
             'unique_voters' => $uniqueVoters
         ]);
     }
+    
+    /**
+     * Get public vote statistics for livestream results page.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPublicStats(Request $request)
+    {
+        $voteType = $request->input('vote_type', 'live');
+        $voteCounts = $this->getVoteCounts($voteType);
+        
+        // Get total votes
+        $totalVotes = Vote::where('vote_type', $voteType)->count();
+        
+        return response()->json([
+            'vote_counts' => $voteCounts,
+            'total_votes' => $totalVotes
+        ]);
+    }
 }

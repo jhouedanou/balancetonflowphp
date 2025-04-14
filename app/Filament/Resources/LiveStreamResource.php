@@ -38,10 +38,20 @@ class LiveStreamResource extends Resource
                     ->helperText('URL YouTube, Twitch ou autre plateforme de streaming')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('thumbnail')
+                Forms\Components\FileUpload::make('thumbnail')
                     ->label('Miniature')
-                    ->helperText('URL de l\'image de miniature')
-                    ->maxLength(255),
+                    ->helperText('Image de miniature pour l\'événement (formats JPEG ou PNG)')
+                    ->image()
+                    ->disk('public')
+                    ->directory('livestream-thumbnails')
+                    ->visibility('public')
+                    ->imageResizeMode('cover')
+                    ->imageCropAspectRatio('16:9')
+                    ->imageResizeTargetWidth('1280')
+                    ->imageResizeTargetHeight('720')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(5120) // 5 Mo max
+                    ->imageEditor(),
                 Forms\Components\DateTimePicker::make('start_time')
                     ->label('Date et heure de début')
                     ->required(),
@@ -59,14 +69,6 @@ class LiveStreamResource extends Resource
                         'final' => 'Finale'
                     ])
                     ->required(),
-                Forms\Components\FileUpload::make('literature_file')
-                    ->label('Littérature / Document')
-                    ->disk('public')
-                    ->directory('livestream-documents')
-                    ->visibility('public')
-                    ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'])
-                    ->maxSize(10240) // 10 Mo max
-                    ->downloadable(),
                 Forms\Components\Select::make('contestants')
                     ->label('Candidats')
                     ->relationship('contestants', 'name')

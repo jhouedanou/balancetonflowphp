@@ -72,6 +72,7 @@ Route::get('/contestants/{contestant}', [ContestantController::class, 'show'])->
 
 // Vote routes
 Route::post('/vote', [VoteController::class, 'store'])->name('vote.store')->middleware('auth');
+Route::get('/votes/stats', [VoteController::class, 'getPublicStats'])->name('votes.stats');
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {

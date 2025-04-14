@@ -2,6 +2,28 @@
 
 @section('title', 'Balance Ton Flow - Live')
 
+@section('styles')
+<style>
+    .livestream-container {
+        position: relative;
+        padding-bottom: 56.25%; /* Ratio 16:9 */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+    }
+    
+    .livestream-container iframe,
+    .livestream-container #player {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="row mb-4">
     <div class="col-12">
@@ -11,10 +33,19 @@
     </div>
 </div>
 
+@php
+    use App\Helpers\YoutubeHelper;
+    $youtubeId = YoutubeHelper::getYoutubeId($livestream->embed_url);
+@endphp
+
 <div class="row">
     <div class="col-lg-8">
         <div class="livestream-container mb-4">
-            <iframe src="{{ $livestream->embed_url }}" allowfullscreen></iframe>
+            @if($youtubeId)
+                <div id="player"></div>
+            @else
+                <iframe src="{{ $livestream->embed_url }}" frameborder="0" allowfullscreen></iframe>
+            @endif
         </div>
         
         <div class="card border-0 shadow-sm mb-4">
@@ -209,5 +240,38 @@
             }, 5000);
         });
     }
+    
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: '{{ $youtubeId }}',
+            playerVars: {
+                autoplay: 1,
+                controls: 1,
+                showinfo: 0,
+                modestbranding: 1,
+                loop: 1,
+                playlist: '{{ $youtubeId }}'
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+    
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+    
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.ENDED) {
+            player.playVideo();
+        }
+    }
 </script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 @endsection

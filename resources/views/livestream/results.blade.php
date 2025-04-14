@@ -125,7 +125,7 @@
 <script>
     // Function to update results
     function updateResults() {
-        axios.get('{{ route("admin.votes.stats") }}', {
+        axios.get('{{ route("votes.stats") }}', {
             params: {
                 vote_type: 'live'
             }

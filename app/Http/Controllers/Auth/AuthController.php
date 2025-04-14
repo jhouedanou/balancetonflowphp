@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use App\Notifications\WelcomeNotification;
 
 class AuthController extends Controller
 {
@@ -67,9 +68,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Envoyer un email de bienvenue
+        $user->notify(new WelcomeNotification());
+
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Votre compte a été créé avec succès!');
+        return redirect()->route('home')->with('success', 'Votre compte a été créé avec succès! Un email de bienvenue vous a été envoyé.');
     }
 
     // Déconnecte l'utilisateur
