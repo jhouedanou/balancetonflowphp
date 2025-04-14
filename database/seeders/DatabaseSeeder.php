@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
                 $admin = User::create([
                     'name' => 'Jean Luc',
                     'email' => 'jeanluc@bigfiveabidjan.com',
-                    'password' => 'Rdf#2025_SecureAdmin!', // Sans Hash::make pour éviter le double hachage
+                    'password' => Hash::make('Rdf#2025_SecureAdmin!'),
                     'email_verified_at' => now(),
                 ]);
                 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             } else {
                 // Mise à jour directe sans hachage pour éviter le double hachage
                 $admin->forceFill([
-                    'password' => 'Rdf#2025_SecureAdmin!'
+                    'password' => Hash::make('Rdf#2025_SecureAdmin!')
                 ])->save();
                 
                 // S'assurer que l'utilisateur a le rôle admin
