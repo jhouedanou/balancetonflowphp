@@ -37,13 +37,19 @@ docker-compose.override.yml
 /storage/framework/views/*
 /storage/framework/testing/*
 /storage/logs/*
-/bootstrap/cache/*
 
 # Mais conserver les dossiers
 !/storage/framework/cache/.gitkeep
 !/storage/framework/sessions/.gitkeep
 !/storage/framework/views/.gitkeep
 !/storage/logs/.gitkeep
+
+# Ne pas ignorer le répertoire bootstrap/cache
+/bootstrap/cache/*.php
+/bootstrap/cache/*.meta
+/bootstrap/cache/*.lock
+
+# Mais conserver les dossiers
 !/bootstrap/cache/.gitkeep
 
 # Filament
@@ -51,4 +57,3 @@ docker-compose.override.yml
 .config/*
 .config
 .var
-
