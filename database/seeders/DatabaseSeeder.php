@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Candidate;
+use App\Models\Contestant;
 use App\Models\LiveStream;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -42,8 +42,8 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]);
 
-            // Create candidates
-            $candidates = [
+            // Create sample contestants
+            $contestants = [
                 [
                     'name' => 'MC Flow',
                     'description' => 'Rappeur talentueux avec un flow unique et des textes percutants. Originaire de Marseille, il mêle influences méditerranéennes et hip-hop américain.',
@@ -71,8 +71,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ];
 
-            foreach ($candidates as $candidateData) {
-                Candidate::create($candidateData);
+            foreach ($contestants as $contestantData) {
+                Contestant::create($contestantData);
             }
 
             // Create a sample livestream
@@ -86,9 +86,9 @@ class DatabaseSeeder extends Seeder
                 'phase' => 'semi-final',
             ]);
 
-            // Attach candidates to livestream
+            // Attach contestants to livestream
             $livestream = LiveStream::first();
-            $livestream->candidates()->attach(Candidate::where('is_finalist', true)->pluck('id'));
+            $livestream->contestants()->attach(Contestant::where('is_finalist', true)->pluck('id'));
         }
     }
 }
