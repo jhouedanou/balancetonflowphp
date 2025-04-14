@@ -33,14 +33,22 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Données existantes sauvegardées et réinsérées avec succès!');
         } else {
             // Si aucune donnée existante, utiliser les données de démo originales
-            // Create admin user
-            $admin = User::create([
-                'name' => 'Admin',
-                'email' => 'admin@balancetonflow.com',
-                'password' => Hash::make('hv7dAZCcZbT75ddH'),
-                'is_admin' => true,
-                'email_verified_at' => now(),
-            ]);
+            // Create or update admin user
+            $admin = User::where('email', 'admin@balancetonflow.com')->first();
+            
+            if (!$admin) {
+                $admin = User::create([
+                    'name' => 'Admin',
+                    'email' => 'admin@balancetonflow.com',
+                    'password' => Hash::make('hv7dAZCcZbT75ddH'),
+                    'is_admin' => true,
+                    'email_verified_at' => now(),
+                ]);
+            } else {
+                $admin->password = Hash::make('hv7dAZCcZbT75ddH');
+                $admin->is_admin = true;
+                $admin->save();
+            }
 
             // Create sample contestants
             $contestants = [
