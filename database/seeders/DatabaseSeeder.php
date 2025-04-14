@@ -16,15 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Vérifier si nous avons des données existantes
-        $hasExistingData = false;
+        // Vérifier si des données existent déjà
+        $hasUsers = User::count() > 0;
+        $hasContestants = Contestant::count() > 0;
         
-        if (Schema::hasTable('contestants') && \DB::table('contestants')->count() > 0) {
-            $hasExistingData = true;
-        }
-        
-        if ($hasExistingData) {
-            // Utiliser les seeders qui sauvegardent les données existantes
+        if ($hasUsers && $hasContestants) {
+            // Utiliser les seeders spécifiques pour sauvegarder et réinsérer les données existantes
             $this->call([
                 ContestantSeeder::class,
                 LiveStreamSeeder::class,
@@ -40,12 +37,12 @@ class DatabaseSeeder extends Seeder
                 $admin = User::create([
                     'name' => 'Admin',
                     'email' => 'admin@balancetonflow.com',
-                    'password' => Hash::make('hv7dAZCcZbT75ddH'),
+                    'password' => Hash::make('Z3rza+kckdRJFIVO'), // Mot de passe sécurisé
                     'is_admin' => true,
                     'email_verified_at' => now(),
                 ]);
             } else {
-                $admin->password = Hash::make('hv7dAZCcZbT75ddH');
+                $admin->password = Hash::make('Z3rza+kckdRJFIVO');
                 $admin->is_admin = true;
                 $admin->save();
             }
@@ -57,26 +54,7 @@ class DatabaseSeeder extends Seeder
                     'description' => 'Rappeur talentueux avec un flow unique et des textes percutants. Originaire de Marseille, il mêle influences méditerranéennes et hip-hop américain.',
                     'is_finalist' => true,
                 ],
-                [
-                    'name' => 'Lyrical Queen',
-                    'description' => 'Rappeuse engagée aux textes poétiques et militants. Son style mélange rap conscient et influences soul pour un résultat captivant.',
-                    'is_finalist' => true,
-                ],
-                [
-                    'name' => 'Beat Master',
-                    'description' => 'Artiste complet qui produit ses propres instrumentales. Son style unique fusionne trap moderne et samples vintage pour un résultat innovant.',
-                    'is_finalist' => true,
-                ],
-                [
-                    'name' => 'Flow Rider',
-                    'description' => 'Jeune talent prometteur avec une technique impressionnante. Sa capacité à changer de flow et son énergie sur scène en font un candidat redoutable.',
-                    'is_finalist' => false,
-                ],
-                [
-                    'name' => 'Mic Crusher',
-                    'description' => 'Vétéran de la scène underground, il apporte expérience et authenticité. Ses textes racontent la vie quotidienne avec profondeur et humour.',
-                    'is_finalist' => false,
-                ],
+                // Ajoutez d'autres candidats selon vos besoins
             ];
 
             foreach ($contestants as $contestantData) {
@@ -88,9 +66,9 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Demi-finales Balance Ton Flow 2025',
                 'description' => 'Les 6 meilleurs candidats s\'affrontent pour décrocher leur place en finale. Votez pour vos 3 favoris !',
                 'embed_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-                'start_time' => now()->addDays(5)->setHour(20)->setMinute(0),
-                'end_time' => now()->addDays(5)->setHour(22)->setMinute(30),
-                'is_active' => false,
+                'start_time' => now()->addDays(7),
+                'end_time' => now()->addDays(7)->addHours(3),
+                'is_active' => true,
                 'phase' => 'semi-final',
             ]);
 
