@@ -24,7 +24,7 @@
                 @endif
                 
                 <!-- Formulaire d'inscription -->
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('user.register.submit') }}">
                     @csrf
                     
                     <div class="mb-3">
