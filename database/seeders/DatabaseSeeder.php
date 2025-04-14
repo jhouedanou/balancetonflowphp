@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
                 $admin = User::create([
                     'name' => 'Admin',
                     'email' => 'admin@balancetonflow.com',
-                    'password' => 'Z3rza+kckdRJFIVO', // Sans Hash::make pour éviter le double hachage
+                    'password' => 'admin123', // Sans Hash::make pour éviter le double hachage
                     'email_verified_at' => now(),
                 ]);
                 
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             } else {
                 // Mise à jour directe sans hachage pour éviter le double hachage
                 $admin->forceFill([
-                    'password' => 'Z3rza+kckdRJFIVO'
+                    'password' => 'admin123'
                 ])->save();
                 
                 // S'assurer que l'utilisateur a le rôle admin
